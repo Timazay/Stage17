@@ -1,6 +1,6 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
-public class Ammunition extends Object{
+public class Ammunition {
     private String name;
     private double cost;
     private double height;
@@ -8,8 +8,14 @@ public class Ammunition extends Object{
 
     public Ammunition(String name, double cost, double height) {
         this.name = name;
-        this.cost = cost;
-        this.height = height;
+        if (cost > 0) {
+            this.cost = cost;
+        }
+
+        if (height > 0) this.height = height;
+    }
+
+    public Ammunition() {
     }
 
     public String getName() {
@@ -39,10 +45,8 @@ public class Ammunition extends Object{
 
     @Override
     public String toString() {
-        return "Armour{" +
-                "name='" + name + '\'' +
-                ", cost=" + cost +
-                ", height=" + height;
+        return  " + name = " + name + ", cost = " + cost +
+                ", height = " + height;
     }
 }
 

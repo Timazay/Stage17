@@ -5,7 +5,9 @@ public class Armor extends Ammunition{
 
     public Armor(String name, double cost, double height, int protection) {
         super(name, cost, height);
-        this.protection = protection;
+        if (protection > 0) {
+            this.protection = protection;
+        }
     }
 
     public int getProtection() {
@@ -18,7 +20,7 @@ public class Armor extends Ammunition{
 
     @Override
     public String toString() {
-        return "protection=" + protection +
+        return super.toString() + "protection=" + protection +
                 '}';
     }
 }

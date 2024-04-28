@@ -4,6 +4,7 @@ import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
 import by.itstep.timazay.stage17.ooplesson.model.entity.Armor;
 import by.itstep.timazay.stage17.ooplesson.model.entity.Weapon;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
+import by.itstep.timazay.stage17.ooplesson.model.entity.container.iterator.SecondInventory;
 
 public class KnightLogic {
     public static double calcTotalCost(Inventory inventory) {
@@ -18,10 +19,22 @@ public class KnightLogic {
         }
         return totalCost;
     }
+    public static double calcTotalCost2(SecondInventory inventory) {
+        if (inventory == null || inventory.getSize() == 0) {
+            return -1;
+        }
+
+        double totalCost = 0;
+        for (Ammunition equipment :
+                inventory) {
+            totalCost += equipment.getCost();
+        }
+        return totalCost;
+    }
 
     public static double[] findAmmunitionByPriceRange(Inventory inventory, int minPrice, int maxPrice) {
         if (inventory == null || inventory.getSize() == 0) {
-            return new double[] {-1};
+            return new double[]{-1};
         }
 
         int count = 0;
@@ -73,13 +86,13 @@ public class KnightLogic {
     }
 
     public static int calcTotalDefense(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getArmors() == null) {
             return -1;
         }
 
         int totalDefense = 0;
-        for (Armor defense :
-                inventory.getArmors()) {
+
+        for (Armor defense : inventory.getArmors()) {
             totalDefense += defense.getProtection();
         }
         return totalDefense;
@@ -98,8 +111,8 @@ public class KnightLogic {
     }
 
     public static int[] findAmmunitionByDefense(Inventory inventory, int minDefense, int maxDefense) {
-        if (inventory == null || inventory.getSize() == 0) {
-            return new int[] {-1};
+        if (inventory == null || inventory.getSize() == 0 || inventory.getArmors() == null) {
+            return new int[]{-1};
         }
 
         int count = 0;
@@ -120,7 +133,7 @@ public class KnightLogic {
     }
 
     public static int findMinDefense(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getArmors() == null) {
             return -1;
         }
 
@@ -136,7 +149,7 @@ public class KnightLogic {
     }
 
     public static int findMaxDefense(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getArmors() == null) {
             return -1;
         }
 
@@ -151,46 +164,45 @@ public class KnightLogic {
     }
 
 
-  public static double[] findAmmunitionByHeight(Inventory inventory, int minHeight, int maxHeight) {
-      if (inventory == null || inventory.getSize() == 0) {
-          return new double[] {-1};
-      }
+    public static double[] findAmmunitionByHeight(Inventory inventory, int minHeight, int maxHeight) {
+        if (inventory == null || inventory.getSize() == 0) {
+            return new double[]{-1};
+        }
 
-      int count = 0;
-      for (Ammunition item : inventory.getAmmunition()) {
-          if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight) {
-              count++;
-          }
-      }
+        int count = 0;
+        for (Ammunition item : inventory.getAmmunition()) {
+            if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight) {
+                count++;
+            }
+        }
 
-       double[] result = new double[count];
-       int index = 0;
-       for (Ammunition item : inventory.getAmmunition()) {
-           if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight){
-               result[index] = item.getHeight();
-               index++;
-           }
-       }
+        double[] result = new double[count];
+        int index = 0;
+        for (Ammunition item : inventory.getAmmunition()) {
+            if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight) {
+                result[index] = item.getHeight();
+                index++;
+            }
+        }
 
-       return result;
-   }
+        return result;
+    }
 
     public static double calcTotalDamage(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getWeapons() == null) {
             return -1;
         }
 
         double totalDamage = 0;
-        for (Weapon defense :
-                inventory.getWeapons()) {
+        for (Weapon defense : inventory.getWeapons()) {
             totalDamage += defense.getDamage();
         }
         return totalDamage;
     }
 
     public static double[] findAmmunitionByDamage(Inventory inventory, int minHeight, int maxHeight) {
-        if (inventory == null || inventory.getSize() == 0) {
-            return new double[] {-1};
+        if (inventory == null || inventory.getSize() == 0 || inventory.getWeapons() == null) {
+            return new double[]{-1};
         }
 
         int count = 0;
@@ -203,7 +215,7 @@ public class KnightLogic {
         double[] result = new double[count];
         int index = 0;
         for (Weapon item : inventory.getWeapons()) {
-            if (item.getDamage() >= minHeight && item.getDamage() <= maxHeight){
+            if (item.getDamage() >= minHeight && item.getDamage() <= maxHeight) {
                 result[index] = item.getDamage();
                 index++;
             }
@@ -213,7 +225,7 @@ public class KnightLogic {
     }
 
     public static double findMinDamage(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getWeapons() == null) {
             return -1;
         }
 
@@ -229,7 +241,7 @@ public class KnightLogic {
     }
 
     public static double findMaxDamage(Inventory inventory) {
-        if (inventory == null || inventory.getSize() == 0) {
+        if (inventory == null || inventory.getSize() == 0 || inventory.getWeapons() == null) {
             return -1;
         }
 
