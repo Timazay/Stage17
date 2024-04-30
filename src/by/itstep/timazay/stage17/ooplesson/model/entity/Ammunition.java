@@ -1,15 +1,15 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
-public class Ammunition {
+public class Ammunition implements Comparable<Ammunition>{
     private String name;
-    private double cost;
+    private double price;
     private double height;
 
 
-    public Ammunition(String name, double cost, double height) {
+    public Ammunition(String name, double price, double height) {
         this.name = name;
-        if (cost > 0) {
-            this.cost = cost;
+        if (price > 0) {
+            this.price = price;
         }
 
         if (height > 0) this.height = height;
@@ -26,12 +26,12 @@ public class Ammunition {
         this.name = name;
     }
 
-    public double getCost() {
-        return cost;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public double getHeight() {
@@ -45,8 +45,20 @@ public class Ammunition {
 
     @Override
     public String toString() {
-        return  " + name = " + name + ", cost = " + cost +
+        return  "name = " + name + ", cost = " + price +
                 ", height = " + height;
+    }
+
+    @Override
+    public int compareTo(Ammunition ammunition) {
+        if (price == ammunition.getPrice() ) {
+            return 0;
+        }
+        if (price < ammunition.getPrice()){
+            return -1;
+        }
+
+        return 1;
     }
 }
 

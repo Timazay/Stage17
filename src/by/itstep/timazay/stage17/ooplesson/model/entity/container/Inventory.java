@@ -1,64 +1,85 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity.container;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
-import by.itstep.timazay.stage17.ooplesson.model.entity.Armor;
-import by.itstep.timazay.stage17.ooplesson.model.entity.Weapon;
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionNotFoundException;
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.DuplicateAmmunitionException;
 
-public class Inventory {
-    public static final int DEFAULT_SIZE = 10;
+import java.util.Iterator;
 
-    private Ammunition[] ammunition;
-    private Armor[] armors;
-    private Weapon[] weapons;
-    private int size = 0;
 
-    public Inventory() {
-        ammunition = new Ammunition[DEFAULT_SIZE];
-        armors = new Armor[DEFAULT_SIZE];
-        weapons = new Weapon[DEFAULT_SIZE];
-    }
+public class Inventory implements Iterable<Ammunition> {
+    Container container;
 
 
     public Inventory(Ammunition[] ammunition) {
-        this.ammunition = ammunition;
-        size = ammunition.length;
+        container = new LinkedListImplementation();
     }
 
-    public Inventory(Armor[] armors) {
-        this.armors = armors;
-        size = armors.length;
+
+    public Inventory(Container container) {
+        this.container = container;
     }
 
-    public Inventory(Weapon[] weapons) {
-        this.weapons = weapons;
-        size = weapons.length;
-    }
-
-    public Ammunition[] getAmmunition() {
-        return ammunition;
-    }
-
-    public void setAmmunition(Ammunition[] ammunition) {
-        this.ammunition = ammunition;
-    }
-
-    public Armor[] getArmors() {
-        return armors;
-    }
-
-    public void setArmors(Armor[] armors) {
-        this.armors = armors;
-    }
-
-    public Weapon[] getWeapons() {
-        return weapons;
-    }
-
-    public void setWeapons(Weapon[] weapons) {
-        this.weapons = weapons;
-    }
 
     public int getSize() {
-        return size;
+        return container.size();
     }
+
+    public Ammunition get(int index) throws AmmunitionNotFoundException {
+        return container.get(index);
+    }
+
+
+    public void add(Ammunition ammunition) throws DuplicateAmmunitionException {
+        container.add(ammunition);
+    }
+
+    public void remove(Ammunition ammunition) {
+        container.remove(ammunition);
+    }
+
+    public void remove(int index) {
+        container.remove(index);
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("List of ammunition:\n");
+        for (int i = 0; i < container.size(); i++) {
+            try {
+                builder.append(container.get(i)).append("\n");
+            } catch (AmmunitionNotFoundException e) {
+                System.out.println(e);
+            }
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public Iterator<Ammunition> iterator() {
+        return new InventoryIterator();
+    }
+
+    private class InventoryIterator implements Iterator<Ammunition> {
+        private int count = 0;
+
+        @Override
+        public boolean hasNext() {
+            return count < container.size();
+        }
+
+        @Override
+        public Ammunition next() {
+            if (hasNext()) {
+                try {
+                    return container.get(count++);
+                } catch (AmmunitionNotFoundException e) {
+                    System.out.println(e);
+                }
+            }
+            return null;
+        }
+    }
+
 }

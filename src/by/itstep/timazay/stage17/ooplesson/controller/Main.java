@@ -2,11 +2,11 @@ package by.itstep.timazay.stage17.ooplesson.controller;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.*;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
-import by.itstep.timazay.stage17.ooplesson.model.entity.container.iterator.AmmunitionImplementation;
-import by.itstep.timazay.stage17.ooplesson.model.entity.container.iterator.SecondInventory;
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionNotFoundException;
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.DuplicateAmmunitionException;
 import by.itstep.timazay.stage17.ooplesson.model.logic.KnightLogic;
 
-import java.util.Iterator;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -16,50 +16,52 @@ public class Main {
         Armor leg1 = new Armor("Leg2", 24, 323, 54);
         Weapon weapon = new Weapon(Artifact.SWORD_OF_MADNESS);
         Weapon sword = new Weapon(Artifact.FROSTMOURNE);
-        Weapon sword2 = new Weapon(Artifact.FROSTMOURNE);
-        //    Weapon weapon = new Weapon("s", 32, 4, 23);
-        //    Weapon sword = new Weapon("d", 49, 322, 489);
+        Weapon sword2 = new Weapon("Artifact", 3, 4, 55);
+        Weapon weapon3 = new Weapon("s", 32, 4, 23);
+        Weapon sword4 = new Weapon("d", 49, 322, 489);
 
+        Ammunition[] ammunitions = {sword, sword2, armor1, leg,  armor, sword4, weapon};
 
-        Ammunition[] ammunitions = {sword, sword2, armor1};
-        Armor[] armors = {armor1, leg1, leg, armor};
-        Weapon[] weapons = {weapon, sword, sword2};
-        SecondInventory inventory2 = new SecondInventory(ammunitions);
-        AmmunitionImplementation a = new AmmunitionImplementation();
         Inventory inventory = new Inventory(ammunitions);
-        Iterable[] iterable = {inventory2};
+
 
         for (int i = 0; i < ammunitions.length; i++) {
-            System.out.println(ammunitions[i].toString());
-            inventory2.add(ammunitions[i]);
-        }
-        System.out.println(inventory2.getSize());
-        for (Iterable it : iterable) {
-            Iterator iterator = inventory2.iterator();
-            System.out.println(iterator.hasNext());
-            while (iterator.hasNext()) {
-                System.out.println(iterator.next() + "");
+            try {
+       //         System.out.println(ammunitions[i].toString());
+                inventory.add(ammunitions[i]);
+            } catch (DuplicateAmmunitionException exc) {
+                System.err.println("" + exc + ammunitions[i]);
             }
-
         }
 
-        //      System.out.println(KnightLogic.findCheapestAmmunition(inventory));
-//
-        //      System.out.println(KnightLogic.findMostExpensiveAmmunition(inventory));
-//
-        //      double[] result = KnightLogic.findAmmunitionByPriceRange(inventory, 20, 40);
-//
-        //      for (double price : result) {
-        //          System.out.println(price);
-        //      }
+        double[] result = new double[0];
+        try {
+            result = KnightLogic.findAmmunitionByDamage(inventory, 20, 300);
+        } catch (AmmunitionNotFoundException e) {
+            System.out.println(e);
+        }
+
+        for (double d : result) {
+            System.out.println(d);
+        }
+
+        System.out.println();
+
+        try {
+            System.out.println(KnightLogic.findMaxDamage(inventory));
+        } catch (AmmunitionNotFoundException e) {
+            System.out.println(e);
+        }
+
+        System.out.println();
 
 
+        double[] result2 = KnightLogic.findAmmunitionByPriceRange(inventory, 20, 1000);
+        for (double d : result2) {
+            System.out.println(d);
+        }
+         System.out.println(KnightLogic.findMostExpensiveAmmunition(inventory));
 
 
-
-//       System.out.println(sword2.toString());
-//       System.out.println(KnightLogic.calcTotalCost2(inventory2));
-//       System.out.println(inventory2.toString());
-//       System.out.println(KnightLogic.calcTotalCost(inventory));
     }
 }

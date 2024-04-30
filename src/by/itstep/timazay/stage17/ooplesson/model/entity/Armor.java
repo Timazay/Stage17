@@ -1,26 +1,25 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
 public class Armor extends Ammunition{
-    private int protection;
+    private int defense;
 
-    public Armor(String name, double cost, double height, int protection) {
-        super(name, cost, height);
-        if (protection > 0) {
-            this.protection = protection;
+    public Armor(String name, double price, double height, int defense) {
+        super(name, price, height);
+        if (defense > 0) {
+            this.defense = defense;
         }
     }
 
-    public int getProtection() {
-        return protection;
+    public int getDefense() {
+        return defense;
     }
 
-    public void setProtection(int protection) {
-        this.protection = protection;
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "protection=" + protection +
-                '}';
+        return super.toString() + ", protection = " + defense;
     }
 }

@@ -1,7 +1,7 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
 public class Weapon extends Ammunition {
-    private double damage;
+    public double damage;
     private Artifact artifact;
 
     public Weapon() {
@@ -21,19 +21,19 @@ public class Weapon extends Ammunition {
         switch (artifact) {
             case FROSTMOURNE:
                 super.setName("Frostmourne");
-                super.setCost(666);
+                super.setPrice(666);
                 super.setHeight(13);
                 damage = 666;
                 break;
             case SWORD_OF_MADNESS:
                 super.setName("Sword of madness");
-                super.setCost(322);
+                super.setPrice(322);
                 super.setHeight(6);
                 damage = 228;
                 break;
             case DEVOURER_OF_WORLDS:
                 super.setName("Devourer of worlds");
-                super.setCost(1432);
+                super.setPrice(1432);
                 super.setHeight(24);
                 damage = 9999;
                 break;
@@ -57,7 +57,7 @@ public class Weapon extends Ammunition {
 
     @Override
     public String toString() {
-        return "Weapon{" + super.toString() +
-                "damage=" + damage + '}';
+        return  super.toString() +
+                ", damage=" + damage;
     }
 }

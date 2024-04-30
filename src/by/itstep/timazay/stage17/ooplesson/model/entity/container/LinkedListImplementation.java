@@ -1,20 +1,27 @@
-package by.itstep.timazay.stage17.ooplesson.model.entity.container.iterator;
+package by.itstep.timazay.stage17.ooplesson.model.entity.container;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.DuplicateAmmunitionException;
 
 import java.util.LinkedList;
 
-public class AmmunitionImplementation implements Container {
-   // private Ammunition[] ammunitions;
+public class LinkedListImplementation implements Container {
+
     private LinkedList<Ammunition> linkedList;
 
-    public AmmunitionImplementation() {
+    public LinkedListImplementation() {
         this.linkedList = new LinkedList<>();
     }
 
     @Override
-    public void add(Ammunition ammunition) {
-        linkedList.add(ammunition);
+    public void add(Ammunition ammunition) throws DuplicateAmmunitionException {
+        if (linkedList.contains(ammunition)) {
+            throw new DuplicateAmmunitionException();
+        } else {
+            linkedList.add(ammunition);
+            //   linkedList.add(ammunition);
+        }
+
     }
 
     @Override
