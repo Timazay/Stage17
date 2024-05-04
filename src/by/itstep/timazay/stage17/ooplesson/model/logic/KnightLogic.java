@@ -102,7 +102,7 @@ public class KnightLogic {
         double totalCost = 0;
         for (Ammunition equipment :
                 inventory) {
-            totalCost += equipment.getHeight();
+            totalCost += equipment.getWeight();
         }
         return totalCost;
     }
@@ -190,7 +190,7 @@ public class KnightLogic {
 
         int count = 0;
         for (Ammunition item : inventory) {
-            if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight) {
+            if (item.getWeight() >= minHeight && item.getWeight() <= maxHeight) {
                 count++;
             }
         }
@@ -198,8 +198,8 @@ public class KnightLogic {
         double[] result = new double[count];
         int index = 0;
         for (Ammunition item : inventory) {
-            if (item.getHeight() >= minHeight && item.getHeight() <= maxHeight) {
-                result[index] = item.getHeight();
+            if (item.getWeight() >= minHeight && item.getWeight() <= maxHeight) {
+                result[index] = item.getWeight();
                 index++;
             }
         }

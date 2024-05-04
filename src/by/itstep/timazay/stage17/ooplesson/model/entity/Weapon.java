@@ -7,8 +7,8 @@ public class Weapon extends Ammunition {
     public Weapon() {
     }
 
-    public Weapon(String name, double cost, double height, double damage) {
-        super(name, cost, height);
+    public Weapon(String name, double price, double weight, double damage) {
+        super(name, price, weight);
 
         if (damage > 0) {
             this.damage = damage;
@@ -22,19 +22,19 @@ public class Weapon extends Ammunition {
             case FROSTMOURNE:
                 super.setName("Frostmourne");
                 super.setPrice(666);
-                super.setHeight(13);
+                super.setWeight(13);
                 damage = 666;
                 break;
             case SWORD_OF_MADNESS:
                 super.setName("Sword of madness");
                 super.setPrice(322);
-                super.setHeight(6);
+                super.setWeight(6);
                 damage = 228;
                 break;
             case DEVOURER_OF_WORLDS:
                 super.setName("Devourer of worlds");
                 super.setPrice(1432);
-                super.setHeight(24);
+                super.setWeight(24);
                 damage = 9999;
                 break;
 
