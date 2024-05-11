@@ -1,7 +1,7 @@
-package by.itstep.timazay.stage17.ooplesson.model.entity.container;
+package by.itstep.timazay.stage17.ooplesson.model.entity.container.Implementation;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
-import by.itstep.timazay.stage17.ooplesson.model.entity.exception.DuplicateAmmunitionException;
+import by.itstep.timazay.stage17.ooplesson.model.entity.container.Container;
 
 import java.util.LinkedList;
 
@@ -14,13 +14,9 @@ public class LinkedListImplementation implements Container {
     }
 
     @Override
-    public void add(Ammunition ammunition) throws DuplicateAmmunitionException {
-        if (linkedList.contains(ammunition)) {
-            throw new DuplicateAmmunitionException();
-        } else {
+    public void add(Ammunition ammunition){
             linkedList.add(ammunition);
-            //   linkedList.add(ammunition);
-        }
+
 
     }
 
@@ -32,6 +28,11 @@ public class LinkedListImplementation implements Container {
     @Override
     public void remove(int index) {
         linkedList.remove(index);
+    }
+
+    @Override
+    public boolean contain(Ammunition ammunition) {
+        return linkedList.contains(ammunition);
     }
 
     @Override

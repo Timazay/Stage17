@@ -1,6 +1,7 @@
-package by.itstep.timazay.stage17.ooplesson.model.entity.container;
+package by.itstep.timazay.stage17.ooplesson.model.entity.container.Implementation;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
+import by.itstep.timazay.stage17.ooplesson.model.entity.container.Container;
 
 public class ArrayImplementation implements Container {
     private static final int DEFAULT_SIZE = 10;
@@ -44,6 +45,17 @@ public class ArrayImplementation implements Container {
             ammunitionArray[i] = ammunitionArray[i + 1];
         }
         size--;
+    }
+
+    @Override
+    public boolean contain(Ammunition ammunition) {
+        boolean contain = false;
+        for (int i = 0; i < ammunitionArray.length; i++) {
+            if (ammunitionArray[i] == ammunition){
+                contain = true;
+            }
+        }
+        return contain;
     }
 
     @Override

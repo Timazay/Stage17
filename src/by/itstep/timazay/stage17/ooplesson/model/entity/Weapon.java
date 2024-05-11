@@ -1,20 +1,27 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionException.InappropriateСharacteristic;
+
 public class Weapon extends Ammunition {
     public double damage;
     private Artifact artifact;
 
     public Weapon() {
+        damage = 0;
     }
 
     public Weapon(String name, double price, double weight, double damage) {
         super(name, price, weight);
-
-        if (damage > 0) {
-            this.damage = damage;
+        try {
+            if (damage > 0) {
+                this.damage = damage;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect damage");
+            }
+        } catch (InappropriateСharacteristic e) {
+            System.err.println(e);
         }
     }
-
 
     public Weapon(Artifact artifact) {
 
@@ -48,7 +55,15 @@ public class Weapon extends Ammunition {
     }
 
     public void setDamage(double damage) {
-        this.damage = damage;
+        try {
+            if (damage > 0) {
+                this.damage = damage;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect damage");
+            }
+        } catch (InappropriateСharacteristic e) {
+            System.err.println(e);
+        }
     }
 
     public Artifact getArtifact() {
@@ -57,7 +72,7 @@ public class Weapon extends Ammunition {
 
     @Override
     public String toString() {
-        return  super.toString() +
-                ", damage=" + damage;
+        return super.toString() +
+                ", damage = " + damage;
     }
 }

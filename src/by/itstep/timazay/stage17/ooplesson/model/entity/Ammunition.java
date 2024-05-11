@@ -1,22 +1,37 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity;
 
-public class Ammunition implements Comparable<Ammunition>{
+import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionException.InappropriateСharacteristic;
+
+public class Ammunition implements Comparable<Ammunition> {
     private String name;
     private double price;
     private double weight;
 
+    public Ammunition() {
+        name = "Unknown";
+        price = 0;
+        weight = 0;
+    }
 
     public Ammunition(String name, double price, double weight) {
         this.name = name;
-        if (price > 0) {
-            this.price = price;
+        try {
+            if (price > 0) {
+                this.price = price;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect price");
+            }
+            if (weight > 0) {
+                this.weight = weight;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect weight");
+            }
+        } catch (InappropriateСharacteristic e) {
+            System.err.println(e);
         }
 
-        if (weight > 0) this.weight = weight;
     }
 
-    public Ammunition() {
-    }
 
     public String getName() {
         return name;
@@ -31,7 +46,15 @@ public class Ammunition implements Comparable<Ammunition>{
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        try {
+            if (price > 0) {
+                this.price = price;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect price");
+            }
+        } catch (InappropriateСharacteristic e) {
+            System.err.println(e);
+        }
     }
 
     public double getWeight() {
@@ -39,22 +62,30 @@ public class Ammunition implements Comparable<Ammunition>{
     }
 
     public void setWeight(double weight) {
-        this.weight = weight;
+        try {
+            if (weight > 0) {
+                this.weight = weight;
+            } else {
+                throw new InappropriateСharacteristic("Incorrect weight");
+            }
+        } catch (InappropriateСharacteristic e){
+            System.err.println(e);
+        }
     }
 
 
     @Override
     public String toString() {
-        return  "name = " + name + ", cost = " + price +
-                ", height = " + weight;
+        return "name = " + name + ", cost = " + price +
+                ", weight = " + weight;
     }
 
     @Override
     public int compareTo(Ammunition ammunition) {
-        if (price == ammunition.getPrice() ) {
+        if (price == ammunition.getPrice()) {
             return 0;
         }
-        if (price < ammunition.getPrice()){
+        if (price < ammunition.getPrice()) {
             return -1;
         }
 
