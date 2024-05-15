@@ -3,17 +3,18 @@ package by.itstep.timazay.stage17.ooplesson.model.entity;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionException.InappropriateСharacteristic;
 
 public class Armor extends Ammunition{
-    private int defense;
+    private int defence;
 
     public Armor() {
-        defense = 0;
+        super();
+        defence = 0;
     }
 
-    public Armor(String name, double price, double weight, int defense) {
+    public Armor(String name, double price, double weight, int defence) {
         super(name, price, weight);
         try {
-            if (defense > 0) {
-                this.defense = defense;
+            if (defence > 0) {
+                this.defence = defence;
             } else {
                 throw new InappropriateСharacteristic("Incorrect defense");
             }
@@ -23,14 +24,14 @@ public class Armor extends Ammunition{
 
     }
 
-    public int getDefense() {
-        return defense;
+    public int getDefence() {
+        return defence;
     }
 
-    public void setDefense(int defense) {
+    public void setDefence(int defence) {
         try {
-            if (defense > 0) {
-                this.defense = defense;
+            if (defence > 0) {
+                this.defence = defence;
             } else {
                 throw new InappropriateСharacteristic("Incorrect defense");
             }
@@ -41,6 +42,6 @@ public class Armor extends Ammunition{
 
     @Override
     public String toString() {
-        return super.toString() + ", protection = " + defense;
+        return super.toString() + ", defence = " + defence;
     }
 }

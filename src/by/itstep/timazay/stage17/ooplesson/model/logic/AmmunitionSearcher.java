@@ -77,7 +77,7 @@ public class AmmunitionSearcher {
             Ammunition ammunition = ammunitions.get(i);
             if (ammunition instanceof Armor) {
                 Armor weapon = (Armor) ammunition;
-                if (weapon.getDefense() >= minDefense && weapon.getDefense() <= maxDefense) {
+                if (weapon.getDefence() >= minDefense && weapon.getDefence() <= maxDefense) {
                     count++;
                 }
             }
@@ -89,8 +89,8 @@ public class AmmunitionSearcher {
             Ammunition ammunition = ammunitions.get(i);
             if (ammunition instanceof Armor) {
                 Armor armor = (Armor) ammunition;
-                if (armor.getDefense() >= minDefense && armor.getDefense() <= maxDefense) {
-                    result[index] = armor.getDefense();
+                if (armor.getDefence() >= minDefense && armor.getDefence() <= maxDefense) {
+                    result[index] = armor.getDefence();
                     index++;
                 }
             }
@@ -110,7 +110,7 @@ public class AmmunitionSearcher {
             Ammunition ammunition = inventory.get(i);
             if (ammunition instanceof Armor) {
                 Armor armor = (Armor) ammunition;
-                int defense = armor.getDefense();
+                int defense = armor.getDefence();
                 if (defense < minDefense) {
                     minDefense = defense;
                 }
@@ -131,7 +131,7 @@ public class AmmunitionSearcher {
             Ammunition ammunition = inventory.get(i);
             if (ammunition instanceof Armor) {
                 Armor armor = (Armor) ammunition;
-                int defense = armor.getDefense();
+                int defense = armor.getDefence();
                 if (defense > minDefense) {
                     minDefense = defense;
                 }

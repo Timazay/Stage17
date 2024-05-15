@@ -75,7 +75,7 @@ public class Inventory implements Iterable<Ammunition> {
                 throw new InventoryIsOverflowing();
             }
         } catch (DuplicateAmmunitionException | InventoryIsOverflowing e){
-            System.out.println(e);
+            System.err.println(e);
         }
     }
 
@@ -95,7 +95,7 @@ public class Inventory implements Iterable<Ammunition> {
                 throw new AmmunitionNotFoundException();
             }
         } catch (AmmunitionNotFoundException e) {
-            System.out.println(e);
+            System.err.println(e);
         }
     }
 

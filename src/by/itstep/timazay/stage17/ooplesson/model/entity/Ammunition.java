@@ -2,10 +2,11 @@ package by.itstep.timazay.stage17.ooplesson.model.entity;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionException.InappropriateСharacteristic;
 
-public class Ammunition implements Comparable<Ammunition> {
+public class Ammunition  {
     private String name;
     private double price;
     private double weight;
+
 
     public Ammunition() {
         name = "Unknown";
@@ -26,6 +27,7 @@ public class Ammunition implements Comparable<Ammunition> {
             } else {
                 throw new InappropriateСharacteristic("Incorrect weight");
             }
+
         } catch (InappropriateСharacteristic e) {
             System.err.println(e);
         }
@@ -73,23 +75,10 @@ public class Ammunition implements Comparable<Ammunition> {
         }
     }
 
-
     @Override
     public String toString() {
         return "name = " + name + ", cost = " + price +
                 ", weight = " + weight;
-    }
-
-    @Override
-    public int compareTo(Ammunition ammunition) {
-        if (price == ammunition.getPrice()) {
-            return 0;
-        }
-        if (price < ammunition.getPrice()) {
-            return -1;
-        }
-
-        return 1;
     }
 }
 

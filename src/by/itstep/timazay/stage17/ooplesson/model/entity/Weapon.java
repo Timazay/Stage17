@@ -7,7 +7,8 @@ public class Weapon extends Ammunition {
     private Artifact artifact;
 
     public Weapon() {
-        damage = 0;
+        super();
+        damage = 1;
     }
 
     public Weapon(String name, double price, double weight, double damage) {

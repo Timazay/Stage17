@@ -8,6 +8,7 @@ import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
 
 public class TradeLogic {
     private static final double COST_PER_UNIT = 2;
+    private static final double FIRST_AID_KIT_COST = 50;
 
     public static boolean sellOrBuyAmmunition(Ammunition ammunition, Inventory seller, Inventory client) {
         if (ammunition == null || seller == null || seller == client) {
@@ -36,7 +37,7 @@ public class TradeLogic {
     }
 
     public static boolean buyExtraBackpack(Inventory inventory, double weight) {
-        if (weight <= 0) {
+        if (weight <= 0 || inventory == null) {
             return false;
         }
 
@@ -48,6 +49,20 @@ public class TradeLogic {
             inventory.setMaxWeight(inventory.getMaxWeight() + weight);
             knight.setWallet(wallet - weight * COST_PER_UNIT);
             deal = false;
+        }
+
+        return deal;
+    }
+
+    public static boolean buyHeal(Knight knight) {
+        if (knight == null){
+            return false;
+        }
+        boolean deal = false;
+        if (FIRST_AID_KIT_COST <= knight.getWallet()) {
+            knight.setHealth(100);
+            knight.setWallet(knight.getWallet() - FIRST_AID_KIT_COST);
+            deal = true;
         }
 
         return deal;

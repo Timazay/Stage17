@@ -4,12 +4,13 @@ import by.itstep.timazay.stage17.ooplesson.model.entity.*;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.InventoryException.DuplicateAmmunitionException;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.InventoryException.InventoryIsOverflowing;
+import by.itstep.timazay.stage17.ooplesson.model.logic.JoustLogic;
 import by.itstep.timazay.stage17.ooplesson.model.logic.TradeLogic;
 
 
 public class Main {
     public static void main(String[] args) {
-        Armor armor = new Armor("Chest", 34, 20, 32);
+        Armor armor = new Armor("Chest", 34, 2, 32);
         Armor armor1 = new Armor("C", 33, 3, 54);
         Armor leg = new Armor("Leg", 84, 2, 43);
         Armor leg1 = new Armor("Leg2", 24, 3, 54);
@@ -28,22 +29,24 @@ public class Main {
 
 
         inventory2.add(armor);
-
+        inventory1.add(armor1);
+        inventory2.add(sword2);
+        inventory1.add(weapon3);
 
         System.out.println(inventory1);
         System.out.println(inventory2);
+        knight.equipWeapon(inventory1, weapon3);
+        knight2.equipWeapon(inventory2, sword2);
+        knight.equipArmor(inventory1,armor1);
+        knight2.equipArmor(inventory2,armor);
 
+        System.out.println(JoustLogic.simulateJoust(knight, knight2));
 
-        System.out.println(TradeLogic.sellOrBuyAmmunition(armor, inventory2, inventory1));
-
-        System.out.println(inventory1);
-        System.out.println();
-knight.equipArmor(inventory1, armor);
         System.out.println(knight);
-        System.out.println(inventory1);
+        System.out.println(knight2);
+TradeLogic.buyHeal(knight2);
+        System.out.println(knight2);
 
-        System.out.println(TradeLogic.buyExtraBackpack(inventory2, 10));
-        System.out.println(inventory2);
 
 
         //    double[] result = new double[0];
