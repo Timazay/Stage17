@@ -80,15 +80,40 @@ public class KnightBinaryWorker {
             stream.writeUTF(knight.getName());
             stream.writeDouble(knight.getWallet());
             stream.writeDouble(knight.getHealth());
-            writeArmor(fileName, armor, stream);
 
-            writeWeapon(fileName, weapon, stream);
+            stream.writeUTF(armor.getName());
+            stream.writeDouble(armor.getPrice());
+            stream.writeDouble(armor.getWeight());
+            stream.writeInt(armor.getDefence());
+
+            stream.writeUTF(weapon.getName());
+            stream.writeDouble(weapon.getPrice());
+            stream.writeDouble(weapon.getWeight());
+            stream.writeDouble(weapon.getDamage());
 
             Inventory inventory = knight.getInventory();
 
-            if (inventory != null) {
-                writeInventory(fileName, inventory, stream);
+            stream.writeDouble(inventory.getMaxWeight());
+
+            input = new int[inventory.getSize()];
+
+            for (int i = 0; i < input.length; i++) {
+                Ammunition ammunition = inventory.get(i);
+                if (ammunition instanceof Armor) {
+                    stream.writeUTF(ammunition.getName());
+                    stream.writeDouble(ammunition.getPrice());
+                    stream.writeDouble(ammunition.getWeight());
+                    stream.writeInt( ((Armor) ammunition).getDefence());
+                    input[i] = 0;
+                } else if (ammunition instanceof Weapon) {
+                    stream.writeUTF(ammunition.getName());
+                    stream.writeDouble(ammunition.getPrice());
+                    stream.writeDouble(ammunition.getWeight());
+                    stream.writeDouble(((Weapon) ammunition).getDamage());
+                    input[i] = 1;
+                }
             }
+
 
         } catch (IOException exception) {
             System.out.println(exception);
@@ -248,17 +273,44 @@ public class KnightBinaryWorker {
                     new BufferedInputStream(
                             new FileInputStream(fileName)));
 
-            Armor armor = new Armor();
-            Weapon weapon = new Weapon();
+            Armor armor = knight.getArmor();
+            Weapon weapon = knight.getWeapon();
             knight.setName(stream.readUTF());
             knight.setWallet(stream.readDouble());
             knight.setHealth(stream.readDouble());
             knight.setAlive(stream.readBoolean());
-            armor = (Armor) readArmor(fileName, stream);
+            armor.setName(stream.readUTF());
+            armor.setPrice(stream.readDouble());
+            armor.setWeight(stream.readDouble());
+            armor.setDefence(stream.readInt());
 
-            weapon = (Weapon) readWeapon(fileName, stream);
+            weapon.setName(stream.readUTF());
+            weapon.setPrice(stream.readDouble());
+            weapon.setWeight(stream.readDouble());
+            weapon.setDamage(stream.readDouble());
 
-            Inventory inventory = readInventory(fileName, stream);
+            Inventory inventory = new Inventory();
+
+            inventory.setMaxWeight(stream.readDouble());
+
+            for (int i = 0; i < input.length; i++) {
+                if (input[i] == 0){
+                    Armor armor1 = new Armor();
+                    armor.setName(stream.readUTF());
+                    armor.setPrice(stream.readDouble());
+                    armor.setWeight(stream.readDouble());
+                    armor.setDefence(stream.readInt());
+                    inventory.add(armor1);
+                } else if (input[i] == 1){
+                    Weapon weapon1 = new Weapon();
+                    weapon1.setName(stream.readUTF());
+                    weapon1.setPrice(stream.readDouble());
+                    weapon1.setWeight(stream.readDouble());
+                    weapon1.setDamage(stream.readDouble());
+                    inventory.add(weapon1);
+                }
+            }
+
             knight.setInventory(inventory);
             inventory.add(armor);
             inventory.add(weapon);
