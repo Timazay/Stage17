@@ -12,26 +12,30 @@ import java.util.Iterator;
 
 public class Inventory implements Iterable<Ammunition> {
     Container container;
-    private Knight owner;
+    private boolean hasOwner;
     private double currentWeight;
     private double maxWeight;
     private static final double DEFAULT_MAX_WEIGHT = 100;
 
 
-    public Inventory(Knight owner) {
+    public Inventory() {
         container = new LinkedListImplementation();
-        this.owner = owner;
+        this.hasOwner = false;
         maxWeight = DEFAULT_MAX_WEIGHT;
     }
 
 
-    public Inventory(Container container, Knight owner) {
-        this.container = container;
-        this.owner = owner;
-    }
+ // public Inventory(Container container, Knight owner) {
+ //     this.container = container;
+ //    this.owner = owner;
+ // }
 
-    public Knight getOwner() {
-        return owner;
+   public boolean getHasOwner() {
+       return hasOwner;
+   }
+
+    public void setHasOwner(boolean hasOwner) {
+        this.hasOwner = hasOwner;
     }
 
     public int getSize() {
@@ -106,7 +110,7 @@ public class Inventory implements Iterable<Ammunition> {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("List ammunition of " + owner.getName() + ":\n");
+        StringBuilder builder = new StringBuilder("List ammunition of Knight: " + ":\n");
         for (int i = 0; i < container.size(); i++) {
                 builder.append(container.get(i)).append("\n");
         }

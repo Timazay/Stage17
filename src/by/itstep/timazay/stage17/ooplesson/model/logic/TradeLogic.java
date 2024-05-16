@@ -1,32 +1,30 @@
 package by.itstep.timazay.stage17.ooplesson.model.logic;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
-import by.itstep.timazay.stage17.ooplesson.model.entity.Armor;
 import by.itstep.timazay.stage17.ooplesson.model.entity.Knight;
-import by.itstep.timazay.stage17.ooplesson.model.entity.Weapon;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
 
 public class TradeLogic {
     private static final double COST_PER_UNIT = 2;
     private static final double FIRST_AID_KIT_COST = 50;
 
-    public static boolean sellOrBuyAmmunition(Ammunition ammunition, Inventory seller, Inventory client) {
+    public static boolean sellOrBuyAmmunition(Ammunition ammunition, Knight seller, Knight client) {
         if (ammunition == null || seller == null || seller == client) {
             return false;
         }
         boolean deal = false;
-        Knight trader = seller.getOwner();
-        Knight buyer = client.getOwner();
-        double traderWallet = trader.getWallet();
-        double buyerWallet = buyer.getWallet();
+        Inventory trader = seller.getInventory();
+        Inventory buyer = client.getInventory();
+        double traderWallet = seller.getWallet();
+        double buyerWallet = client.getWallet();
 
 
         if (buyerWallet >= ammunition.getPrice()) {
-            if (seller.contain(ammunition)) {
-                client.add(ammunition);
-                seller.remove(ammunition);
-                buyer.setWallet(buyerWallet - ammunition.getPrice());
-                trader.setWallet(traderWallet + ammunition.getPrice());
+            if (trader.contain(ammunition)) {
+                buyer.add(ammunition);
+                trader.remove(ammunition);
+                client.setWallet(buyerWallet - ammunition.getPrice());
+                seller.setWallet(traderWallet + ammunition.getPrice());
                 deal = true;
 
             }
@@ -36,13 +34,13 @@ public class TradeLogic {
 
     }
 
-    public static boolean buyExtraBackpack(Inventory inventory, double weight) {
-        if (weight <= 0 || inventory == null) {
+    public static boolean buyExtraBackpack(Knight knight, double weight) {
+        if (weight <= 0 || knight == null) {
             return false;
         }
 
         boolean deal = false;
-        Knight knight = inventory.getOwner();
+        Inventory inventory = knight.getInventory();
         double wallet = knight.getWallet();
 
         if (wallet >= weight * COST_PER_UNIT) {

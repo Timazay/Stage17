@@ -13,6 +13,7 @@ public class Knight {
     private boolean isAlive;
     private Armor armor;
     private Weapon weapon;
+    private Inventory inventory;
 
     public Knight() {
         name = "Unknown";
@@ -21,7 +22,7 @@ public class Knight {
         isAlive = false;
     }
 
-    public Knight(String name, double wallet) {
+    public Knight(String name, double wallet, Inventory inventory) {
         this.name = name;
         try {
 
@@ -34,6 +35,8 @@ public class Knight {
         } catch (KnightException e) {
             System.out.println(e);
         }
+        this.inventory = inventory;
+        inventory.setHasOwner(true);
         this.armor = new Armor();
         this.weapon = new Weapon();
         this.health = DEFAULT_HEALTH;
@@ -70,10 +73,10 @@ public class Knight {
     }
 
     public void setHealth(double health) {
-        if (health <= 0){
+        if (health <= 0) {
             isAlive = false;
             this.health = 0;
-        }else {
+        } else {
             this.health = health;
         }
     }
@@ -90,42 +93,47 @@ public class Knight {
         return armor;
     }
 
-    public void equipArmor(Inventory inventory, Armor armor) {
-        Knight knight = inventory.getOwner();
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        inventory.setHasOwner(true);
+
+    }
+
+    public void equipArmor(Armor armor) {
+        Knight knight = this;
         Armor tempArmor = getArmor();
-        try {
-            if (knight == this && tempArmor.getName().equals("Unknown")) {
-                try {
-                    if (inventory.contain(armor)) {
-                        this.armor = armor;
-                        inventory.remove(armor);
-                    } else {
+        if (tempArmor == null) {
+            try {
+                if (inventory.contain(armor)) {
+                    this.armor = armor;
+                    inventory.remove(armor);
+                } else {
 
-                        throw new AmmunitionNotFoundException("There is no such armor in " + inventory);
-                    }
-                } catch (AmmunitionNotFoundException e) {
-                    System.err.println(e);
+                    throw new AmmunitionNotFoundException("There is no such armor in " + inventory);
                 }
-            } else if (knight == this) {
-                try {
-                    if (inventory.contain(armor)) {
-                        this.armor = armor;
-                        if (!tempArmor.getName().equals("Unknown")) {
-                            inventory.add(tempArmor);
-                        }
-                    } else {
-                        throw new AmmunitionNotFoundException("There is no such armor in " + inventory);
-                    }
-                } catch (AmmunitionNotFoundException e) {
-                    System.err.println(e);
-                }
-            } else {
-                throw new KnightException();
+            } catch (AmmunitionNotFoundException e) {
+                System.err.println(e);
             }
-
-        } catch (KnightException e) {
-            System.out.println("Wrong Knight owner");
+        } else {
+            try {
+                if (inventory.contain(armor)) {
+                    this.armor = armor;
+                    inventory.remove(armor);
+                    if (!tempArmor.getName().equals("Unknown")) {
+                        inventory.add(tempArmor);
+                    }
+                } else {
+                    throw new AmmunitionNotFoundException("There is no such armor in " + inventory);
+                }
+            } catch (AmmunitionNotFoundException e) {
+                System.err.println(e);
+            }
         }
+
 
     }
 
@@ -133,38 +141,37 @@ public class Knight {
         return weapon;
     }
 
-    public void equipWeapon(Inventory inventory, Weapon weapon) {
-        Knight knight = inventory.getOwner();
+    public void equipWeapon(Weapon weapon) {
+        Knight knight = this;
         Weapon tempWeapon = getWeapon();
-        try {
-            if (knight == this && tempWeapon == null) {
-                try {
-                    if (inventory.contain(weapon)) {
-                        this.weapon = weapon;
-                        inventory.remove(weapon);
-                    } else {
 
-                        throw new AmmunitionNotFoundException("There is no such weapon in " + inventory);
-                    }
-                } catch (AmmunitionNotFoundException e) {
-                    System.err.println(e);
+        if (tempWeapon == null) {
+            try {
+                if (inventory.contain(weapon)) {
+                    this.weapon = weapon;
+                    inventory.remove(weapon);
+                } else {
+
+                    throw new AmmunitionNotFoundException("There is no such weapon in " + inventory);
                 }
-            } else if (knight == this) {
-                try {
-                    if (inventory.contain(weapon)) {
-                        this.weapon = weapon;
-                        inventory.add(tempWeapon);
-                    } else {
-                        throw new AmmunitionNotFoundException("There is no such weapon in " + inventory);
-                    }
-                } catch (AmmunitionNotFoundException e) {
-                    System.err.println(e);
-                }
-            } else {
-                throw new KnightException();
+            } catch (AmmunitionNotFoundException e) {
+                System.err.println(e);
             }
-        } catch (KnightException e) {
-            System.err.println("Wrong Knight owner");
+        } else {
+            try {
+                if (inventory.contain(weapon)) {
+                    this.weapon = weapon;
+                    inventory.remove(weapon);
+                    if (!tempWeapon.getName().equals("Unknown")) {
+                        inventory.add(tempWeapon);
+                    }
+                } else {
+                    throw new AmmunitionNotFoundException("There is no such weapon in " + inventory);
+                }
+            } catch (AmmunitionNotFoundException e) {
+                System.err.println(e);
+            }
+
         }
     }
 
@@ -174,6 +181,7 @@ public class Knight {
                 + "* balance = " + wallet + "\n"
                 + "* armor: " + armor + "\n"
                 + "* weapon: " + weapon + "\n"
-                + "* health: " + health + "/" + DEFAULT_HEALTH;
+                + "* health: " + health + "/" + DEFAULT_HEALTH + "\n"
+                + "* " + inventory;
     }
 }

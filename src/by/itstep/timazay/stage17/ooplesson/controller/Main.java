@@ -4,6 +4,7 @@ import by.itstep.timazay.stage17.ooplesson.model.entity.*;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.InventoryException.DuplicateAmmunitionException;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.InventoryException.InventoryIsOverflowing;
+import by.itstep.timazay.stage17.ooplesson.model.io.KnightBinaryWorker;
 import by.itstep.timazay.stage17.ooplesson.model.logic.JoustLogic;
 import by.itstep.timazay.stage17.ooplesson.model.logic.TradeLogic;
 
@@ -20,32 +21,34 @@ public class Main {
         Weapon weapon3 = new Weapon("s", 32, 4, 23);
         Weapon sword4 = new Weapon("d", 49, 3, 489);
 
-        Knight knight = new Knight("Sir Roderic", 60);
-        Knight knight2 = new Knight("Sir Godric", 40);
-
-
-        Inventory inventory1 = new Inventory(knight);
-        Inventory inventory2 = new Inventory(knight2);
-
-
-        inventory2.add(armor);
-        inventory1.add(armor1);
-        inventory2.add(sword2);
-        inventory1.add(weapon3);
-
+        Inventory inventory1 = new Inventory();
+        Inventory inventory2 = new Inventory();
+        inventory1.add(sword4);
         System.out.println(inventory1);
-        System.out.println(inventory2);
-        knight.equipWeapon(inventory1, weapon3);
-        knight2.equipWeapon(inventory2, sword2);
-        knight.equipArmor(inventory1,armor1);
-        knight2.equipArmor(inventory2,armor);
 
-        System.out.println(JoustLogic.simulateJoust(knight, knight2));
+        Knight knight = new Knight("Sir Roderic", 60, inventory1);
+        Knight knight2 = new Knight("Sir Godric", 40, inventory2);
+
+        inventory1.add(armor1);
+        inventory1.add(weapon3);
+        inventory1.add(armor);
+
+
+        knight.equipWeapon(weapon3);
+        knight.equipArmor(armor1);
+        knight.equipArmor(armor);
 
         System.out.println(knight);
-        System.out.println(knight2);
-TradeLogic.buyHeal(knight2);
-        System.out.println(knight2);
+
+
+        String str = "C:/Users/Oxxxy/IdeaProjects/inventory.bin";
+
+        KnightBinaryWorker.writeKnight(str, knight);
+
+        Knight knight1 = KnightBinaryWorker.readKnight(str);
+
+
+     System.out.println(knight1);
 
 
 

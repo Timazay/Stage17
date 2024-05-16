@@ -3,12 +3,12 @@ package by.itstep.timazay.stage17.ooplesson.model.entity;
 import by.itstep.timazay.stage17.ooplesson.model.entity.exception.AmmunitionException.InappropriateСharacteristic;
 
 public class Weapon extends Ammunition {
-    public double damage;
+    private double damage;
     private Artifact artifact;
 
     public Weapon() {
         super();
-        damage = 1;
+        damage = 0;
     }
 
     public Weapon(String name, double price, double weight, double damage) {
