@@ -23,8 +23,7 @@ public class Main {
 
         Inventory inventory1 = new Inventory();
         Inventory inventory2 = new Inventory();
-        inventory1.add(sword4);
-        System.out.println(inventory1);
+
 
         Knight knight = new Knight("Sir Roderic", 60, inventory1);
         Knight knight2 = new Knight("Sir Godric", 40, inventory2);
@@ -34,14 +33,17 @@ public class Main {
         inventory1.add(armor);
 
 
+
+
         knight.equipWeapon(weapon3);
         knight.equipArmor(armor1);
+        System.out.println(knight);
         knight.equipArmor(armor);
 
         System.out.println(knight);
 
 
-        String str = "C:/Users/Oxxxy/IdeaProjects/inventory.bin";
+        String str = "C:/Users/Oxxxy/IdeaProjects/knight.bin";
 
         KnightBinaryWorker.writeKnight(str, knight);
 

@@ -9,10 +9,9 @@ import by.itstep.timazay.stage17.ooplesson.model.entity.container.Inventory;
 import java.io.*;
 
 public class KnightBinaryWorker {
-    private static int[] input;
 
-    public static void writeArmor(String fileName, Armor armor, DataOutputStream stream) {
-        //   DataOutputStream stream;
+    public static void writeArmor(String fileName, Armor armor) {
+        DataOutputStream stream;
         stream = null;
 
         try {
@@ -38,8 +37,8 @@ public class KnightBinaryWorker {
         }
     }
 
-    public static void writeWeapon(String fileName, Weapon weapon, DataOutputStream stream) {
-        //     DataOutputStream stream;
+    public static void writeWeapon(String fileName, Weapon weapon) {
+        DataOutputStream stream;
         stream = null;
 
         try {
@@ -94,23 +93,23 @@ public class KnightBinaryWorker {
             Inventory inventory = knight.getInventory();
 
             stream.writeDouble(inventory.getMaxWeight());
+            stream.writeInt(inventory.getSize());
 
-            input = new int[inventory.getSize()];
-
-            for (int i = 0; i < input.length; i++) {
+            for (int i = 0; i < inventory.getSize(); i++) {
                 Ammunition ammunition = inventory.get(i);
+
                 if (ammunition instanceof Armor) {
+                    stream.writeInt(0);
                     stream.writeUTF(ammunition.getName());
                     stream.writeDouble(ammunition.getPrice());
                     stream.writeDouble(ammunition.getWeight());
-                    stream.writeInt( ((Armor) ammunition).getDefence());
-                    input[i] = 0;
-                } else if (ammunition instanceof Weapon) {
+                    stream.writeInt(((Armor) ammunition).getDefence());
+                } else {
+                    stream.writeInt(1);
                     stream.writeUTF(ammunition.getName());
                     stream.writeDouble(ammunition.getPrice());
                     stream.writeDouble(ammunition.getWeight());
                     stream.writeDouble(((Weapon) ammunition).getDamage());
-                    input[i] = 1;
                 }
             }
 
@@ -130,8 +129,8 @@ public class KnightBinaryWorker {
 
     }
 
-    public static void writeInventory(String fileName, Inventory inventory, DataOutputStream stream) {
-        //     DataOutputStream stream;
+    public static void writeInventory(String fileName, Inventory inventory) {
+        DataOutputStream stream;
         stream = null;
 
         try {
@@ -139,21 +138,25 @@ public class KnightBinaryWorker {
                     new BufferedOutputStream(
                             new FileOutputStream(fileName)));
 
-
-            stream.writeInt(inventory.getSize());
             stream.writeDouble(inventory.getMaxWeight());
-            int i = 0;
-            input = new int[inventory.getSize()];
+           stream.writeInt(inventory.getSize());
 
-            for (Ammunition ammunition : inventory) {
+            for (int i = 0; i < inventory.getSize(); i++) {
+                Ammunition ammunition = inventory.get(i);
+
                 if (ammunition instanceof Armor) {
-                    writeArmor(fileName, (Armor) ammunition, stream);
-                    input[i] = 0;
-                } else if (ammunition instanceof Weapon) {
-                    writeWeapon(fileName, (Weapon) ammunition, stream);
-                    input[i] = 1;
+                    stream.writeInt(0);
+                    stream.writeUTF(ammunition.getName());
+                    stream.writeDouble(ammunition.getPrice());
+                    stream.writeDouble(ammunition.getWeight());
+                    stream.writeInt(((Armor) ammunition).getDefence());
+                } else {
+                    stream.writeInt(1);
+                    stream.writeUTF(ammunition.getName());
+                    stream.writeDouble(ammunition.getPrice());
+                    stream.writeDouble(ammunition.getWeight());
+                    stream.writeDouble(((Weapon) ammunition).getDamage());
                 }
-                i++;
             }
         } catch (IOException exception) {
             System.out.println(exception);
@@ -170,8 +173,8 @@ public class KnightBinaryWorker {
 
     }
 
-    public static Ammunition readArmor(String fileName, DataInputStream stream) {
-        stream = null;
+    public static Ammunition readArmor(String fileName) {
+        DataInputStream stream = null;
         Ammunition ammunition = null;
 
         try {
@@ -200,8 +203,8 @@ public class KnightBinaryWorker {
         return ammunition;
     }
 
-    public static Ammunition readWeapon(String fileName, DataInputStream stream) {
-        stream = null;
+    public static Ammunition readWeapon(String fileName) {
+        DataInputStream stream = null;
         Ammunition ammunition = null;
 
         try {
@@ -230,23 +233,28 @@ public class KnightBinaryWorker {
         return ammunition;
     }
 
-    public static Inventory readInventory(String fileName, DataInputStream stream) {
-        stream = null;
+    public static Inventory readInventory(String fileName) {
+        DataInputStream stream = null;
         Inventory inventory = new Inventory();
-        Ammunition ammunition = null;
         try {
             stream = new DataInputStream(
                     new BufferedInputStream(
                             new FileInputStream(fileName)));
-            int size = stream.readInt();
 
             inventory.setMaxWeight(stream.readDouble());
+            int size = stream.readInt();
 
             for (int i = 0; i < size; i++) {
-                if (input[i] == 0) {
-                    inventory.add(readArmor(fileName, stream));
-                } else if (input[i] == 1) {
-                    inventory.add(readWeapon(fileName, stream));
+                int type = stream.readInt();
+                String name = stream.readUTF();
+                double price = stream.readDouble();
+                double weight = stream.readDouble();
+                if (type == 0) {
+                    int defense = stream.readInt();
+                    inventory.add(new Armor(name, price, weight, defense));
+                } else if (type == 1) {
+                    double damage = stream.readDouble();
+                    inventory.add(new Weapon(name, price, weight, damage));
                 }
             }
         } catch (IOException exception) {
@@ -273,12 +281,13 @@ public class KnightBinaryWorker {
                     new BufferedInputStream(
                             new FileInputStream(fileName)));
 
-            Armor armor = knight.getArmor();
-            Weapon weapon = knight.getWeapon();
+            Armor armor = new Armor();
+            Weapon weapon = new Weapon();
+
             knight.setName(stream.readUTF());
             knight.setWallet(stream.readDouble());
             knight.setHealth(stream.readDouble());
-            knight.setAlive(stream.readBoolean());
+
             armor.setName(stream.readUTF());
             armor.setPrice(stream.readDouble());
             armor.setWeight(stream.readDouble());
@@ -292,33 +301,31 @@ public class KnightBinaryWorker {
             Inventory inventory = new Inventory();
 
             inventory.setMaxWeight(stream.readDouble());
+            int size = stream.readInt();
 
-            for (int i = 0; i < input.length; i++) {
-                if (input[i] == 0){
-                    Armor armor1 = new Armor();
-                    armor.setName(stream.readUTF());
-                    armor.setPrice(stream.readDouble());
-                    armor.setWeight(stream.readDouble());
-                    armor.setDefence(stream.readInt());
-                    inventory.add(armor1);
-                } else if (input[i] == 1){
-                    Weapon weapon1 = new Weapon();
-                    weapon1.setName(stream.readUTF());
-                    weapon1.setPrice(stream.readDouble());
-                    weapon1.setWeight(stream.readDouble());
-                    weapon1.setDamage(stream.readDouble());
-                    inventory.add(weapon1);
+            for (int i = 0; i < size; i++) {
+                int type = stream.readInt();
+                String name = stream.readUTF();
+                double price = stream.readDouble();
+                double weight = stream.readDouble();
+
+                if (type == 0) {
+                    int defense = stream.readInt();
+                    inventory.add(new Armor(name, price, weight, defense));
+                } else if (type == 1) {
+                    double damage = stream.readDouble();
+                    inventory.add(new Weapon(name, price, weight, damage));
                 }
+
+                knight.setInventory(inventory);
+                inventory.add(armor);
+                inventory.add(weapon);
+
+                knight.equipArmor(armor);
+                knight.equipWeapon(weapon);
+
             }
-
-            knight.setInventory(inventory);
-            inventory.add(armor);
-            inventory.add(weapon);
-
-            knight.equipArmor(armor);
-            knight.equipWeapon(weapon);
-
-        } catch (IOException exception) {
+        }catch (IOException exception) {
             System.out.println(exception);
         } finally {
             try {

@@ -30,7 +30,7 @@ public class Inventory implements Iterable<Ammunition> {
  //    this.owner = owner;
  // }
 
-   public boolean getHasOwner() {
+   public boolean isOwner() {
        return hasOwner;
    }
 
@@ -110,7 +110,7 @@ public class Inventory implements Iterable<Ammunition> {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder("List ammunition of Knight: " + ":\n");
+        StringBuilder builder = new StringBuilder("List ammunition of Knight: " + "\n");
         for (int i = 0; i < container.size(); i++) {
                 builder.append(container.get(i)).append("\n");
         }

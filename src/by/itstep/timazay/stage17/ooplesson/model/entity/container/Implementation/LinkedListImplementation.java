@@ -1,6 +1,8 @@
 package by.itstep.timazay.stage17.ooplesson.model.entity.container.Implementation;
 
 import by.itstep.timazay.stage17.ooplesson.model.entity.Ammunition;
+import by.itstep.timazay.stage17.ooplesson.model.entity.Armor;
+import by.itstep.timazay.stage17.ooplesson.model.entity.Weapon;
 import by.itstep.timazay.stage17.ooplesson.model.entity.container.Container;
 
 import java.util.LinkedList;
@@ -16,8 +18,6 @@ public class LinkedListImplementation implements Container {
     @Override
     public void add(Ammunition ammunition){
             linkedList.add(ammunition);
-
-
     }
 
     @Override
@@ -39,7 +39,6 @@ public class LinkedListImplementation implements Container {
     public Ammunition get(int index) {
         return linkedList.get(index);
     }
-
     @Override
     public int size() {
         return linkedList.size();
